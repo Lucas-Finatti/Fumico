@@ -16,7 +16,7 @@ export class Reminder {
   status: string;
   
   @Prop()
-  user: User;
+  user: string;
   
   @Prop()
   created_at: string;

@@ -1,29 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { User } from 'src/users/entities/user.entity';
 import { CreateReminderDto } from './dto/create-reminder.dto';
 import { UpdateReminderDto } from './dto/update-reminder.dto';
 import { Reminder, ReminderDocument } from './entities/reminder.entity'
 
 @Injectable()
 export class RemindersService {
-  constructor(@InjectModel(Reminder.name) private userModel: Model<ReminderDocument>) {}
+  constructor(@InjectModel(Reminder.name) private reminderModel: Model<ReminderDocument>) {}
 
-  create(createReminderDto: CreateReminderDto) {
-    const reminder = new this.userModel(createReminderDto) 
+  create(createReminderDto: CreateReminderDto, userId: string) {
+    const reminder = new this.reminderModel(createReminderDto) 
+    reminder.user = userId
     return reminder.save();
   }
 
-  findAll() {
-    return this.userModel.find();
+  findAll(userId: string) {
+    return this.reminderModel.find({
+      user: userId
+    });
   }
 
   findOne(id: string) {
-    return this.userModel.findById(id);
+    return this.reminderModel.findById(id);
   }
 
   update(id: string, updateReminderDto: UpdateReminderDto) {
-    return this.userModel.findByIdAndUpdate(
+    return this.reminderModel.findByIdAndUpdate(
       {
         _id: id,
       },
@@ -37,7 +41,7 @@ export class RemindersService {
   }
 
   remove(id: string) {
-    return this.userModel.findOneAndDelete({
+    return this.reminderModel.findOneAndDelete({
       _id: id,
     })
     .exec();

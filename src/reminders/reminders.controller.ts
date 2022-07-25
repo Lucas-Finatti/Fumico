@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { RemindersService } from './reminders.service';
 import { CreateReminderDto } from './dto/create-reminder.dto';
 import { UpdateReminderDto } from './dto/update-reminder.dto';
@@ -10,14 +10,14 @@ export class RemindersController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/create')
-  create(@Body() createReminderDto: CreateReminderDto) {
-    return this.remindersService.create(createReminderDto);
+  create(@Body() createReminderDto: CreateReminderDto, @Req() req) {
+    return this.remindersService.create(createReminderDto, req.user.id);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  findAll() {
-    return this.remindersService.findAll();
+  findAll(@Req() req) {
+    return this.remindersService.findAll(req.user.id);
   }
 
   @UseGuards(JwtAuthGuard)
