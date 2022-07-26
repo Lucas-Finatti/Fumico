@@ -135,6 +135,6 @@ Request addres: http://localhost:3000/reminders/delete/<reminder_id>
 
 This software uses the following open source packages:
 
-- [Node]([https://expressjs.com/pt-br/](https://nodejs.org/en/))
+- [Node](https://nodejs.org/en/)
 - [Nest](https://nestjs.com)
-- [Mongoose]([https://www.mediawiki.org/wiki/API:Main_page/pt-br](https://mongoosejs.com))
+- [Mongoose](https://mongoosejs.com)
